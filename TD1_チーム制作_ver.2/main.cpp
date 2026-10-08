@@ -64,6 +64,8 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	int pAreaX = 900;
 	int pAreaY = 400;
+	int yuusenX = pAreaX + 55;
+	int yuusenX = pAreaY + 75;
 
 	int perfectAreaRadius = 50;
 	int greatAreaRadius = 100;
@@ -120,7 +122,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 			for (int i = 0;i < 2;i++) {
 				//死んでいる弾
 				if (!obj[i].isAlive) {
-
 					//リスポーンタイマーが対象秒数になったら
 					if (obj[i].respawntime > 0.0f) {
 						obj[i].respawntime--;
@@ -152,11 +153,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 					obj[i].isAlive = false;
 				}
 			}
-
-			//スペースを押したとき範囲内なら消す判定
-			if (keys[DIK_SPACE] && !preKeys[DIK_SPACE]) {
-
-				for (int i = 0;i < 2;i++) {
+			for (int i = 0;i < 2;i++) {
+				//スペースを押したとき範囲内なら消す判定
+				if (keys[DIK_SPACE] && !preKeys[DIK_SPACE]) {
 					if (!obj[i].isAlive) {
 						continue;
 					}
@@ -170,9 +169,9 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 						gauge.high += 20;
 						//切断ノルマ達成
 						if (obj[i].hp <= 0) {
-							if(obj[i].position.y)
-							//オブジェクトを消す
-							obj[i].isAlive = false;
+							if (obj[i].position.y)
+								//オブジェクトを消す
+								obj[i].isAlive = false;
 
 							//リスポーンタイムのリセット
 							obj[i].respawntime = 60.0f;
