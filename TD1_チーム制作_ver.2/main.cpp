@@ -1,5 +1,6 @@
 #include <Novice.h>
 #include <ctime>
+#include"関数.h"
 
 enum types {
 	ONE,
@@ -212,20 +213,17 @@ int WINAPI WinMain(_In_ HINSTANCE,_In_opt_ HINSTANCE,_In_ LPSTR,_In_ int) {
 				//生きているオブジェクトだけ処理
 				if (obj[i].isAlive) {
 					//重力
-					obj[i].velocity.y += gravity;
+					floatAdd(obj[i].velocity.y, gravity);
 					//移動
-					obj[i].position.y += obj[i].velocity.y;
-					obj[i].position.x += obj[i].velocity.x;
+					floatAdd(obj[i].position.y, obj[i].velocity.y);
+					floatAdd(obj[i].position.x, obj[i].velocity.x);
 					//加速度
-					obj[i].velocity.y += obj[i].acceleration.y;
+					floatAdd(obj[i].velocity.y, obj[i].acceleration.y);
 					//画面下まで行ったら消す
-					if (obj[i].position.y >=
-						720 + obj[i].radius + 20) {
+					if (obj[i].position.y >= 720 + obj[i].radius + 20) {
 						obj[i].isAlive = false;
 						//0.2～0.5秒待つ
-						spawnTimer =
-							12.0f +
-							static_cast<float>(rand() % 19);
+						spawnTimer = 12.0f + static_cast<float>(rand() % 19);
 						spawnWaiting = true;
 					}
 				}
@@ -295,10 +293,10 @@ int WINAPI WinMain(_In_ HINSTANCE,_In_opt_ HINSTANCE,_In_ LPSTR,_In_ int) {
 							// HP設定
 
 							if (obj[spawnIndex].type == ONE) {
-								obj[spawnIndex].hp = objONEhp;
+								Sub(obj[spawnIndex].hp, objONEhp);
 							}
 							else if (obj[spawnIndex].type == TWO) {
-								obj[spawnIndex].hp = objTWOhp;
+								Sub(obj[spawnIndex].hp, objTWOhp);
 							}
 
 							// 連続出現回数
@@ -329,8 +327,8 @@ int WINAPI WinMain(_In_ HINSTANCE,_In_opt_ HINSTANCE,_In_ LPSTR,_In_ int) {
 					// PERFECT
 					if (obj[i].position.y > pAreaY + 50 &&
 						obj[i].position.y < pAreaY + 100) {
-						obj[i].hp -= 1;
-						gauge.high += 20;
+						Sub(obj[i].hp, 1);
+						Add(gauge.high, 20);
 
 						if (obj[i].hp <= 0) {
 							obj[i].isAlive = false;
@@ -349,14 +347,14 @@ int WINAPI WinMain(_In_ HINSTANCE,_In_opt_ HINSTANCE,_In_ LPSTR,_In_ int) {
 						}
 						else {
 							//HPが残っていたらバウンド
-							obj[i].velocity.y *= baund;
+							floatMul(obj[i].velocity.y, baund);
 							obj[i].velocity.x = 0;
 						}
 					}
 					// GREAT
 					else if (obj[i].position.y > pAreaY + 10 &&
 						obj[i].position.y < pAreaY + 110) {
-						obj[i].hp -= 1;
+						Sub(obj[i].hp, 1);
 						obj[i].velocity.y *= baund;
 						obj[i].velocity.x = 0;
 						if (obj[i].hp <= 0) {
@@ -365,7 +363,7 @@ int WINAPI WinMain(_In_ HINSTANCE,_In_opt_ HINSTANCE,_In_ LPSTR,_In_ int) {
 							spawnTimer = 12.0f + static_cast<float>(rand() % 19);
 							spawnWaiting = true;
 							//スコア
-							score += greatScore;
+							Add(score, greatScore);
 							//HPリセット
 							if (obj[i].type == ONE) {
 								obj[i].hp = objONEhp;
@@ -378,8 +376,8 @@ int WINAPI WinMain(_In_ HINSTANCE,_In_opt_ HINSTANCE,_In_ LPSTR,_In_ int) {
 					// GOOD
 					else if (obj[i].position.y > pAreaY - 20 &&
 						obj[i].position.y < pAreaY + 120) {
-						obj[i].hp -= 1;
-						obj[i].velocity.y *= baund;
+						Sub(obj[i].hp, 1);
+						floatMul(obj[i].velocity.y, baund);
 						obj[i].velocity.x = 0;
 						if (obj[i].hp <= 0) {
 							obj[i].isAlive = false;
@@ -399,7 +397,7 @@ int WINAPI WinMain(_In_ HINSTANCE,_In_opt_ HINSTANCE,_In_ LPSTR,_In_ int) {
 					}
 					// 範囲外
 					else {
-						score -= 50;
+						Sub(score, 50);
 					}
 				}
 			}
@@ -462,14 +460,13 @@ int WINAPI WinMain(_In_ HINSTANCE,_In_opt_ HINSTANCE,_In_ LPSTR,_In_ int) {
 			//obj描画
 			for (int i = 0; i < kObjCount; i++) {
 				if (obj[i].isAlive) {
-					Novice::DrawEllipse(
+					Circle(
 						static_cast<int>(obj[i].position.x),
 						static_cast<int>(obj[i].position.y),
 						static_cast<int>(obj[i].radius),
-						static_cast<int>(obj[i].radius),
 						0.0f,
-						obj[i].color,
-						kFillModeSolid);
+						static_cast<char>(obj[i].color)
+					);
 				}
 			}
 
