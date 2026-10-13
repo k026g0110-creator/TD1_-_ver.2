@@ -64,8 +64,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 
 	int pAreaX = 900;
 	int pAreaY = 400;
-	int yuusenX = pAreaX + 55;
-	int yuusenX = pAreaY + 75;
 
 	int perfectAreaRadius = 50;
 	int greatAreaRadius = 100;
@@ -80,6 +78,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 	int objTWOhp = 2;
 
 	bool feaverFlag = false;
+	int feaverTimer = 0;
 
 	// キー入力結果を受け取る箱
 	char keys[256] = { 0 };
@@ -104,6 +103,7 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		}
 		if (gauge.high > 540) {
 			gauge.high = 20;
+			feaverFlag = true;
 		}
 		///
 		/// ↓更新処理ここから
@@ -117,7 +117,6 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 		}
 		//sceneがgameのとき
 		if (scene == game) {
-
 			//オブジェクトが生きていない
 			for (int i = 0;i < 2;i++) {
 				//死んでいる弾
@@ -257,6 +256,14 @@ int WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ LPSTR, _In_ int) {
 					}
 				}
 			}
+			if (feaverFlag) {
+				feaverTimer++;
+				if (feaverTimer >= 1000) {
+					feaverTimer = 0;
+					feaverFlag = false;
+				}
+			}
+
 		}
 
 		//sceneがgamecreaのとき
