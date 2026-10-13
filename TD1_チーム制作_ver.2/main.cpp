@@ -424,15 +424,7 @@ int WINAPI WinMain(_In_ HINSTANCE,_In_opt_ HINSTANCE,_In_ LPSTR,_In_ int) {
 		// gamestart
 
 		if (scene == gamestart) {
-			Novice::ScreenPrintf(
-				500,
-				400,
-				"title");
-			if (keys[DIK_SPACE] &&
-				!preKeys[DIK_SPACE]) {
-
-				scene = game;
-			}
+			Novice::ScreenPrintf(500, 400, "title");
 		}
 
 		// game
@@ -501,13 +493,11 @@ int WINAPI WinMain(_In_ HINSTANCE,_In_opt_ HINSTANCE,_In_ LPSTR,_In_ int) {
 		// result
 
 		if (scene == result) {
-
 		}
 
 		// gamemiss
 
 		if (scene == gamemiss) {
-
 		}
 
 		///
